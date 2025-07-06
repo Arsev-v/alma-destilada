@@ -205,8 +205,8 @@ body {
 
 .hero-image {
     position: relative;
-    width: 350px;
-    height: 350px;
+    width: 450px;
+    height: 450px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -216,8 +216,8 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 350px;
-    height: 350px;
+    width: 450px;
+    height: 450px;
     background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), linear-gradient(135deg, #c9a066 60%, #bfa980 100%);
     background-size: 200px 200px, cover;
     border-radius: 50%;
