@@ -213,7 +213,6 @@ body {
     background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), linear-gradient(135deg, #c9a066 60%, #bfa980 100%);
     background-size: 200px 200px, cover;
     border-radius: 50%;
-    opacity: 0.25;
     position: relative;
     box-shadow: 0 8px 40px rgba(124, 92, 59, 0.15);
     overflow: hidden;
@@ -222,13 +221,14 @@ body {
 .hero-bg::before {
     content: '';
     position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
-    background: rgba(255, 255, 255, 0.1);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.15);
     border-radius: 50%;
-    backdrop-filter: blur(10px);
+    z-index: 2;
+    pointer-events: none;
 }
 
 .hero-circle-img {
