@@ -205,30 +205,21 @@ body {
 
 .hero-image {
     position: relative;
-}
-
-.hero-bg {
     width: 400px;
     height: 400px;
-    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), linear-gradient(135deg, #c9a066 60%, #bfa980 100%);
-    background-size: 200px 200px, cover;
-    border-radius: 50%;
-    position: relative;
-    box-shadow: 0 8px 40px rgba(124, 92, 59, 0.15);
-    overflow: hidden;
 }
 
-.hero-bg::before {
-    content: '';
+.hero-bg.wood-texture {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255,255,255,0.15);
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), linear-gradient(135deg, #c9a066 60%, #bfa980 100%);
+    background-size: 200px 200px, cover;
     border-radius: 50%;
-    z-index: 2;
-    pointer-events: none;
+    box-shadow: 0 8px 40px rgba(124, 92, 59, 0.15);
+    z-index: 1;
 }
 
 .hero-circle-img {
@@ -239,10 +230,10 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    border: none;
+    border: 10px solid orange;
     box-shadow: none;
     background: none;
-    z-index: 1;
+    z-index: 2;
 }
 
 /* Products Section */
