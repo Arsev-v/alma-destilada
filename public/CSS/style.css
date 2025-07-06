@@ -207,6 +207,9 @@ body {
     position: relative;
     width: 400px;
     height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero-bg.wood-texture {
@@ -223,14 +226,12 @@ body {
 }
 
 .hero-circle-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: relative;
+    width: 320px;
+    height: 320px;
     object-fit: cover;
     border-radius: 50%;
-    border: 10px solid orange;
+    border: none;
     box-shadow: none;
     background: none;
     z-index: 2;
