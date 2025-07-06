@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Payment - Alma Destilada</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .order-data {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Payment Page</h1>
+    
+    <div class="test-section">
+        <h2>1. Simular Carrinho</h2>
+        <p>Clique no botão abaixo para simular um carrinho com produtos:</p>
+        <button onclick="simulateCart()">Simular Carrinho</button>
+        <div id="cartDisplay" class="order-data" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Ir para Página de Pagamento</h2>
+        <p>Clique no botão abaixo para ir para a página de pagamento:</p>
+        <button onclick="goToPayment()" id="paymentBtn" disabled>Ir para Pagamento</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Testar Diretamente</h2>
+        <p>Ou clique aqui para testar com dados fixos:</p>
+        <button onclick="testDirectPayment()">Testar Pagamento Direto</button>
+    </div>
+
+    <script>
+        let testOrderData = null;
+
+        function simulateCart() {
+            testOrderData = {
+                items: [
+                    {
+                        id: "1",
+                        name: "Cachaça Clássica",
+                        price: 45.00,
+                        quantity: 2,
+                        image: "cocktail-1"
+                    },
+                    {
+                        id: "2", 
+                        name: "Cachaça com Limão",
+                        price: 52.00,
+                        quantity: 1,
+                        image: "cocktail-2"
+                    }
+                ],
+                total: 142.00
+            };
+
+            const display = document.getElementById('cartDisplay');
+            display.style.display = 'block';
+            display.textContent = JSON.stringify(testOrderData, null, 2);
+            
+            document.getElementById('paymentBtn').disabled = false;
+        }
+
+        function goToPayment() {
+            if (!testOrderData) {
+                alert('Primeiro simule um carrinho!');
+                return;
+            }
+
+            const encodedOrder = encodeURIComponent(JSON.stringify(testOrderData));
+            window.location.href = `/payment.html?order=${encodedOrder}`;
+        }
+
+        function testDirectPayment() {
+            const testData = {
+                items: [
+                    {
+                        id: "test-1",
+                        name: "Produto Teste",
+                        price: 25.00,
+                        quantity: 1,
+                        image: "test"
+                    }
+                ],
+                total: 25.00
+            };
+
+            const encodedOrder = encodeURIComponent(JSON.stringify(testData));
+            window.location.href = `/payment.html?order=${encodedOrder}`;
+        }
+    </script>
+</body>
+</html> 

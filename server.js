@@ -27,6 +27,10 @@ app.get('/payment', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'payment.html'));
 });
 
+app.get('/test-payment', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'test-payment.html'));
+});
+
 // Email endpoint
 app.post('/api/send-order', async (req, res) => {
     try {
