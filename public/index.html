@@ -33,6 +33,12 @@
                 <li class="nav-item">
                     <a href="#contact" class="nav-link">Contato</a>
                 </li>
+                <li class="nav-item">
+                    <button class="nav-link cart-btn" id="cartBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </li>
             </ul>
             <div class="nav-toggle">
                 <span class="bar"></span>
@@ -41,6 +47,31 @@
             </div>
         </div>
     </nav>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Seu Carrinho</h3>
+            <button class="close-cart" id="closeCart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">R$ 0,00</span>
+            </div>
+            <button class="btn btn-primary checkout-btn" id="checkoutBtn">
+                Finalizar Compra
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -73,10 +104,16 @@
                         <div class="product-bg cocktail-1"></div>
                     </div>
                     <div class="product-info">
-                        <h3>Classic Mojito</h3>
-                        <p>Refreshing mint and lime cocktail</p>
-                        <div class="product-price">$12.99</div>
-                        <button class="btn btn-primary">Add to Cart</button>
+                        <h3>Cachaça Clássica</h3>
+                        <p>Cachaça artesanal tradicional, destilada com cana-de-açúcar selecionada</p>
+                        <div class="product-price">R$ 45,00</div>
+                        <button class="btn btn-primary add-to-cart" 
+                                data-id="1" 
+                                data-name="Cachaça Clássica" 
+                                data-price="45.00" 
+                                data-image="cocktail-1">
+                            Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -84,10 +121,16 @@
                         <div class="product-bg cocktail-2"></div>
                     </div>
                     <div class="product-info">
-                        <h3>Berry Blast Smoothie</h3>
-                        <p>Fresh berries with yogurt blend</p>
-                        <div class="product-price">$8.99</div>
-                        <button class="btn btn-primary">Add to Cart</button>
+                        <h3>Cachaça com Limão</h3>
+                        <p>Cachaça artesanal com limão siciliano, sabor refrescante e único</p>
+                        <div class="product-price">R$ 52,00</div>
+                        <button class="btn btn-primary add-to-cart" 
+                                data-id="2" 
+                                data-name="Cachaça com Limão" 
+                                data-price="52.00" 
+                                data-image="cocktail-2">
+                            Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -95,10 +138,16 @@
                         <div class="product-bg cocktail-3"></div>
                     </div>
                     <div class="product-info">
-                        <h3>Citrus Sunrise</h3>
-                        <p>Orange and grapefruit fusion</p>
-                        <div class="product-price">$10.99</div>
-                        <button class="btn btn-primary">Add to Cart</button>
+                        <h3>Cachaça com Maracujá</h3>
+                        <p>Cachaça artesanal com maracujá natural, sabor tropical e exótico</p>
+                        <div class="product-price">R$ 58,00</div>
+                        <button class="btn btn-primary add-to-cart" 
+                                data-id="3" 
+                                data-name="Cachaça com Maracujá" 
+                                data-price="58.00" 
+                                data-image="cocktail-3">
+                            Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -106,10 +155,16 @@
                         <div class="product-bg cocktail-4"></div>
                     </div>
                     <div class="product-info">
-                        <h3>Lavender Lemonade</h3>
-                        <p>Calming lavender with fresh lemon</p>
-                        <div class="product-price">$9.99</div>
-                        <button class="btn btn-primary">Add to Cart</button>
+                        <h3>Cachaça com Pimenta</h3>
+                        <p>Cachaça artesanal com pimenta rosa, sabor picante e sofisticado</p>
+                        <div class="product-price">R$ 65,00</div>
+                        <button class="btn btn-primary add-to-cart" 
+                                data-id="4" 
+                                data-name="Cachaça com Pimenta" 
+                                data-price="65.00" 
+                                data-image="cocktail-4">
+                            Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -117,10 +172,16 @@
                         <div class="product-bg cocktail-5"></div>
                     </div>
                     <div class="product-info">
-                        <h3>Tropical Paradise</h3>
-                        <p>Pineapple and coconut delight</p>
-                        <div class="product-price">$11.99</div>
-                        <button class="btn btn-primary">Add to Cart</button>
+                        <h3>Cachaça com Abacaxi</h3>
+                        <p>Cachaça artesanal com abacaxi fresco, sabor tropical e refrescante</p>
+                        <div class="product-price">R$ 55,00</div>
+                        <button class="btn btn-primary add-to-cart" 
+                                data-id="5" 
+                                data-name="Cachaça com Abacaxi" 
+                                data-price="55.00" 
+                                data-image="cocktail-5">
+                            Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
                 <div class="product-card">
@@ -128,10 +189,16 @@
                         <div class="product-bg cocktail-6"></div>
                     </div>
                     <div class="product-info">
-                        <h3>Midnight Blue</h3>
-                        <p>Blueberry and vanilla dream</p>
-                        <div class="product-price">$13.99</div>
-                        <button class="btn btn-primary">Add to Cart</button>
+                        <h3>Cachaça Premium</h3>
+                        <p>Cachaça artesanal premium, envelhecida em barril de carvalho</p>
+                        <div class="product-price">R$ 85,00</div>
+                        <button class="btn btn-primary add-to-cart" 
+                                data-id="6" 
+                                data-name="Cachaça Premium" 
+                                data-price="85.00" 
+                                data-image="cocktail-6">
+                            Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
             </div>

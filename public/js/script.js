@@ -286,4 +286,268 @@ const statsObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.stat').forEach(stat => {
     statsObserver.observe(stat);
+});
+
+// Shopping Cart Functionality
+class ShoppingCart {
+    constructor() {
+        this.items = [];
+        this.total = 0;
+        this.init();
+    }
+
+    init() {
+        this.loadCart();
+        this.bindEvents();
+        this.updateCartDisplay();
+    }
+
+    bindEvents() {
+        // Cart button
+        document.getElementById('cartBtn').addEventListener('click', () => {
+            this.toggleCart();
+        });
+
+        // Close cart
+        document.getElementById('closeCart').addEventListener('click', () => {
+            this.closeCart();
+        });
+
+        // Cart overlay
+        document.getElementById('cartOverlay').addEventListener('click', () => {
+            this.closeCart();
+        });
+
+        // Add to cart buttons
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const product = {
+                    id: e.target.dataset.id,
+                    name: e.target.dataset.name,
+                    price: parseFloat(e.target.dataset.price),
+                    image: e.target.dataset.image,
+                    quantity: 1
+                };
+                this.addItem(product);
+            });
+        });
+
+        // Checkout button
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            this.checkout();
+        });
+    }
+
+    addItem(product) {
+        const existingItem = this.items.find(item => item.id === product.id);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            this.items.push(product);
+        }
+
+        this.saveCart();
+        this.updateCartDisplay();
+        this.showNotification('Produto adicionado ao carrinho!');
+    }
+
+    removeItem(productId) {
+        this.items = this.items.filter(item => item.id !== productId);
+        this.saveCart();
+        this.updateCartDisplay();
+        this.showNotification('Produto removido do carrinho!');
+    }
+
+    updateQuantity(productId, quantity) {
+        const item = this.items.find(item => item.id === productId);
+        if (item) {
+            if (quantity <= 0) {
+                this.removeItem(productId);
+            } else {
+                item.quantity = quantity;
+                this.saveCart();
+                this.updateCartDisplay();
+            }
+        }
+    }
+
+    calculateTotal() {
+        this.total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        return this.total;
+    }
+
+    updateCartDisplay() {
+        const cartItems = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cartCount');
+        const cartTotal = document.getElementById('cartTotal');
+
+        // Update cart count
+        const totalItems = this.items.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = totalItems;
+
+        // Update cart items
+        if (this.items.length === 0) {
+            cartItems.innerHTML = `
+                <div class="cart-empty">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Seu carrinho está vazio</p>
+                    <p>Adicione alguns produtos para começar!</p>
+                </div>
+            `;
+        } else {
+            cartItems.innerHTML = this.items.map(item => `
+                <div class="cart-item" data-id="${item.id}">
+                    <div class="cart-item-image ${item.image}"></div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn minus" onclick="cart.updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                            <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
+                                   onchange="cart.updateQuantity('${item.id}', parseInt(this.value))">
+                            <button class="quantity-btn plus" onclick="cart.updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-item" onclick="cart.removeItem('${item.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Update total
+        const total = this.calculateTotal();
+        cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+    }
+
+    toggleCart() {
+        const sidebar = document.getElementById('cartSidebar');
+        const overlay = document.getElementById('cartOverlay');
+        
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+
+    closeCart() {
+        const sidebar = document.getElementById('cartSidebar');
+        const overlay = document.getElementById('cartOverlay');
+        
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+
+    saveCart() {
+        localStorage.setItem('cart', JSON.stringify(this.items));
+    }
+
+    loadCart() {
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+            this.items = JSON.parse(savedCart);
+        }
+    }
+
+    showNotification(message) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            z-index: 3000;
+            animation: slideIn 0.3s ease;
+        `;
+
+        document.body.appendChild(notification);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+
+    checkout() {
+        if (this.items.length === 0) {
+            this.showNotification('Seu carrinho está vazio!');
+            return;
+        }
+
+        // Create checkout summary
+        const summary = this.items.map(item => 
+            `${item.name} x${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}`
+        ).join('\n');
+
+        const total = this.calculateTotal();
+        
+        // Show checkout modal (you can replace this with a real payment gateway)
+        const checkoutMessage = `
+            🛒 Resumo do Pedido:
+            
+            ${summary}
+            
+            💰 Total: R$ ${total.toFixed(2)}
+            
+            📞 Para finalizar sua compra, entre em contato conosco:
+            WhatsApp: (61) 98300-7811
+            Instagram: @almadestilada
+            Email: destiladaalma@gmail.com
+        `;
+
+        alert(checkoutMessage);
+        this.closeCart();
+    }
+}
+
+// Mobile menu functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize shopping cart
+    window.cart = new ShoppingCart();
+
+    // Mobile menu toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
 }); 
