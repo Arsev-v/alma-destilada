@@ -218,7 +218,7 @@ body {
     left: 0;
     width: 350px;
     height: 350px;
-    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), linear-gradient(135deg, #c9a066 60%, #bfa980 100%);
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), linear-gradient(135deg, #a87e44 60%, #b4965e 100%);
     background-size: 200px 200px, cover;
     border-radius: 50%;
     box-shadow: 0 8px 40px rgba(124, 92, 59, 0.15);
