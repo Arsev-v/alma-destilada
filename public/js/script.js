@@ -482,29 +482,17 @@ class ShoppingCart {
             return;
         }
 
-        // Create checkout summary
-        const summary = this.items.map(item => 
-            `${item.name} x${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}`
-        ).join('\n');
+        // Prepare order data for payment page
+        const orderData = {
+            items: this.items,
+            total: this.calculateTotal()
+        };
 
-        const total = this.calculateTotal();
+        // Encode order data for URL
+        const encodedOrder = encodeURIComponent(JSON.stringify(orderData));
         
-        // Show checkout modal (you can replace this with a real payment gateway)
-        const checkoutMessage = `
-            🛒 Resumo do Pedido:
-            
-            ${summary}
-            
-            💰 Total: R$ ${total.toFixed(2)}
-            
-            📞 Para finalizar sua compra, entre em contato conosco:
-            WhatsApp: (61) 98300-7811
-            Instagram: @almadestilada
-            Email: destiladaalma@gmail.com
-        `;
-
-        alert(checkoutMessage);
-        this.closeCart();
+        // Redirect to payment page
+        window.location.href = `/payment.html?order=${encodedOrder}`;
     }
 }
 
